@@ -89,38 +89,37 @@ public:
     {
         // TODO: may provide some attributes
     public:
-        CharALNode *Refdata;
+        const char *Refdata;
         int Count_address_of;
-        CharALNode *next;
-        int size;
+        ReferencesList *next;
+        int total;
 
     public:
-        /* void insertCharAlNode(CharALNode *inp)
+        void insertdata(const char *s)
         {
-            if (this->Refdata->head == nullptr)
+            if (this->Refdata == nullptr)
             {
-                this->Refdata->insert(inp->head->CharArrayList);
-                this->next = nullptr;
+                this->Refdata = s;
                 this->Count_address_of = 2;
-                size++;
+                this->next = nullptr;
+                this->total = 1;
             }
             else
             {
-                ReferencesList *cur = this;
-                while (cur->next != nullptr)
+                ReferencesList *cur = this->next;
+                while (cur != nullptr)
                 {
-                    cur = cur->next
+                    cur = cur->next;
                 }
-                cur = cur->next;
-                cur->Refdata->insert(inp->head->CharArrayList);
-                cur->next = nullptr;
-                cur->Count_address_of = 2;
-                size++;
+                this->Refdata = s;
+                this->Count_address_of = 2;
+                this->next = nullptr;
+                this->total++;
             }
-        }*/
+        }
         int size() const
         {
-            return this->size;
+            return this->total;
         }
         int refCountAt(int index) const
         {

@@ -5,10 +5,10 @@ ConcatStringList::DeleteStringList ConcatStringList::delStrList = ConcatStringLi
 
 ConcatStringList::ConcatStringList(const char* s){
     this->Data->insert(s);
-    refList.insertCharAlNode(this->Data);
+    refList.insertData(this->Data->head->ArrayChar);
 }
 int ConcatStringList::length() const{
-    return this->Data.size;
+    return this->Data->size;
 }
 char ConcatStringList::get(int index) const{
     if(index<0 || index >= (this->length() - 1) ) throw out_of_range("Index of string is invalid!");
@@ -52,27 +52,25 @@ std::string ConcatStringList::toString() const{
     return totalStr;
 }
 ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const{
-    ConcatStringList concatstr (this->Data->head->CharArrayList);
+    ConcatStringList concatstr (this->Data->head->ArrayChar);
     concatstr.Data->insert(otherS.Data->head->ArrayChar);
-   /* ReferencesList* cur=refList;
+    ReferencesList* cur = refList;
     while (cur!=nullptr)
     {
-        if(cur->Refdata->CharArrayList==this->Data->head->CharArrayList){
-            cur->Count_address_of=3;
-        }
-        if(cur->Refdata->CharArrayList==otherS->Data->head->CharArrayList){
-            cur->Count_address_of=3;
-        }
+        if(cur->Refdata==this->Data->head->ArrayChar) cur->Count_address_of=3;
+        if(cur->Refdata==otherS.Data->head->ArrayChar) cur->Count_address_of=3;
         cur=cur->next;
-    }*/
+    }
+    
     return concatstr;
 }
 ConcatStringList ConcatStringList::subString(int from, int to) const{
     if(from>=to) throw logic_error("Invalid range");
     if(from<0||to>=this->length()) throw out_of_range("Index of string is invalid");
-    ConcatStringList rtn;
+    
     
 }
+
 ConcatStringList ConcatStringList::reverse() const{
 
 }
