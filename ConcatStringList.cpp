@@ -4,40 +4,31 @@ ConcatStringList::ReferencesList ConcatStringList::refList = ConcatStringList::R
 ConcatStringList::DeleteStringList ConcatStringList::delStrList = ConcatStringList::DeleteStringList();
 
 ConcatStringList::ConcatStringList(const char* s){
-    this->Data = new CharALNode(s);
+    this->Data->insert(s);
     refList.insertCharAlNode(this->Data);
 }
 int ConcatStringList::length() const{
-    int length=0;
-    if(this->Data->head!=nullptr){
-        CharALNode* cur=this->Data->head;
-        while (cur!=nullptr)
-        {
-            length+=(int)strlen(cur->CharArrayList);
-            cur=cur->next;
-        }
-    }
-    return length;
+    return this->Data.size;
 }
 char ConcatStringList::get(int index) const{
     if(index<0 || index >= (this->length() - 1) ) throw out_of_range("Index of string is invalid!");
-    CharALNode* cur=this->Data->head;
+    CharArrayList* cur=this->Data->head;
     while (cur!=nullptr)
     {
-        if(index>((int)strlen(cur->CharArrayList)-1)){
-            index-= (int)strlen(cur->CharArrayList);
+        if(index>((int)strlen(cur->ArrayChar)-1)){
+            index-= (int)strlen(cur->ArrayChar);
             cur=cur->next;
             continue;
         }
-        return cur->CharArrayList[index];
+        return cur->ArrayChar[index];
     }
 }
 int ConcatStringList::indexOf(char c) const{
     if(this->Data->head!=nullptr){
-        CharALNode* cur=this->Data->head;
+        CharArrayList* cur=this->Data->head;
         while (cur!=nullptr)
         {
-            for(int i=0;i<(int)strlen(this->Data->CharArrayList);i++){
+            for(int i=0;i<(int)strlen(cur->ArrayChar);i++){
                 if(this->Data->CharArrayList[i]==c) return i;
             }
             cur=cur->next;
@@ -48,10 +39,10 @@ int ConcatStringList::indexOf(char c) const{
 std::string ConcatStringList::toString() const{
     std::string totalStr="ConcatStringList[";
     if(this->Data->head!=nullptr){
-        CharALNode* cur=this->Data->head;
+        CharArrayList* cur=this->Data->head;
         while (cur!=nullptr)
         {
-            totalStr+=cur->CharArrayList;
+            totalStr+=cur->ArrayChar;
             cur=cur->next;
         }
     }

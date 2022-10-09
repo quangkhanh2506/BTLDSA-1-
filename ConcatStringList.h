@@ -13,70 +13,56 @@ public:
     static DeleteStringList delStrList;
 
     // TODO: may provide some attributes
+    class CharArrayList
+    {
+            public:
+                char* ArrayChar;
+                CharArrayList* next;
+            public:
+                ChararrayList(const char* inp){
+                    this->ArrayChar=inp;
+                    this->next=nullptr;
+                }
+                ~ChararrayList();
+    };  
     class CharALNode
     {
     public:
-        const char*  CharArrayList;
-        CharALNode* next;
-        CharALNode* head;
-        CharALNode* tail;
+        int size;
+        CharArrayList* head;
+        CharArrayList* tail;
     public:
         CharALNode(){
-            this->CharArrayList=nullptr;
+            this->size=0;
             this->head=nullptr;
             this->tail=nullptr;
-            this->head->next=nullptr;
-        }
-        CharALNode(const char* inp){
-                this->head->CharArrayList=inp;
-                this->head->next=nullptr;
-                this->tail=this->head;
         }
         void insert(const char* inp){
-            if(this->head==nullptr){
-                this->head->CharArrayList=inp;
-                this->head->next=nullptr;
+            this->size += strlen(inp);
+            if(this->head == nullptr){         
+                this->head = new CharArrayList(inp);
                 this->tail=this->head;
-                
             }
             else{
                 while (this->tail!=nullptr)
                 {
                     this->tail=this->tail->next;
                 }
-                this->tail->CharArrayList=inp;
-                this->tail->next=nullptr;
+                this->tail = new CharArrayList(inp);
             }
         }
-        CharALNode ReCharALNode(char* inp, CharALNode* NEXT){
-            if(this->head==nullptr){
-                this->head->CharArrayList = inp;
-                this->head->next=NEXT;
-                CharALNode* cur=this->head->next;
-                while (cur->next!=nullptr)
-                {
-                    cur=cur->next;
-                }
-                this->tail=cur;
+        ~CharALNode(){
+            this->tail=this->tail->next;
+            while (this->head!=nullptr)
+            {
+                CharArrayList* cur=this->head;
+                this->head=this->head->next;
+                delete cur;
             }
-            else{
-                this->tail->next = CharALNode(inp);
-                CharALNode* cur=this->tail->next;
-                cur->next=NEXT;
-                while (cur->next!=nullptr)
-                {
-                    cur=cur->next;
-                }
-                this->tail=cur;
-            }
-            return this->head;
+            this->size=0;
         }
-
-        ~CharALNode();
-        
     };
     CharALNode* Data;
-    
 public:
     ConcatStringList(const char * s);
     int length() const;
@@ -98,7 +84,7 @@ public:
         int size;
         public:
             void insertCharAlNode(CharALNode* inp){
-                if(this->Refdata->head->CharArrayList==nullptr){
+                if(this->Refdata->head==nullptr){
                     this->Refdata->insert(inp->head->CharArrayList);
                     this->next=nullptr;
                     this->Count_address_of=2;
