@@ -40,19 +40,21 @@ std::string ConcatStringList::toString() const{
     std::string totalStr="ConcatStringList[";
     if(this->Data->head!=nullptr){
         CharArrayList* cur=this->Data->head;
-        while (cur!=nullptr)
+        while (cur->next!=nullptr)
         {
             totalStr+=cur->ArrayChar;
+            totalStr+=",";
             cur=cur->next;
         }
     }
+    totalStr+=cur->ArrayChar;
     totalStr+="]";
     return totalStr;
 }
 ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const{
     ConcatStringList concatstr (this->Data->head->CharArrayList);
-    concatstr.Data->insert(otherS.Data->head->CharArrayList);
-    ReferencesList* cur=refList;
+    concatstr.Data->insert(otherS.Data->head->ArrayChar);
+   /* ReferencesList* cur=refList;
     while (cur!=nullptr)
     {
         if(cur->Refdata->CharArrayList==this->Data->head->CharArrayList){
@@ -62,7 +64,7 @@ ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const{
             cur->Count_address_of=3;
         }
         cur=cur->next;
-    }
+    }*/
     return concatstr;
 }
 ConcatStringList ConcatStringList::subString(int from, int to) const{
@@ -75,14 +77,5 @@ ConcatStringList ConcatStringList::reverse() const{
 
 }
 ConcatStringList::~ConcatStringList(){
-    if(this->Data->head->next==nullptr){
-        CharALNode* cur=this->Data;
-        while (cur!=nullptr)
-        {
-            if(cur->head->CharArrayList==refList.Refdata->CharArrayList)
-        }
-        
-        delete this->Data->tail;
-        delete this->Data->head;
-    }
+    
 }
