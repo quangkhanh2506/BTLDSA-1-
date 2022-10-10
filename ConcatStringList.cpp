@@ -65,8 +65,9 @@ ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const{
     return concatstr;
 }
 ConcatStringList ConcatStringList::subString(int from, int to) const{
-    if(from>=to) throw logic_error("Invalid range");
     if(from<0||to>=this->length()) throw out_of_range("Index of string is invalid");
+    if(from>=to) throw logic_error("Invalid range");
+    
     
     
 }
