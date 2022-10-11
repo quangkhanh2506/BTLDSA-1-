@@ -31,7 +31,7 @@ public:
     class CharALNode
     {
     public:
-        int size;
+        int size_string;
         CharArrayList *head;
         CharArrayList *tail;
 
@@ -44,7 +44,7 @@ public:
         }
         void insert(const char *inp)
         {
-            this->size += strlen(inp);
+            this->size_string += strlen(inp);
             if (this->head == nullptr)
             {
                 this->head = new CharArrayList(inp);
@@ -52,10 +52,7 @@ public:
             }
             else
             {
-                while (this->tail != nullptr)
-                {
-                    this->tail = this->tail->next;
-                }
+                this->tail = this->tail->next;
                 this->tail = new CharArrayList(inp);
             }
         }
@@ -89,31 +86,41 @@ public:
     {
         // TODO: may provide some attributes
     public:
-        const char *Refdata;
-        int Count_address_of;
-        ReferencesList *next;
+        class ReferencesListData
+        {
+        public:
+            const char *Refdata;
+            int Count_address_of;
+            ReferencesListData *next;
+
+        public:
+            ReferencesListData(const char *s)
+            {
+                this->Refdata = s;
+                this->Count_address_of = 2;
+                this->next = nullptr;
+            }
+            ~ReferencesListData();
+        };
+        ReferencesListData *refData;
         int total_ref;
 
     public:
         void insertdata(const char *s)
         {
-            if (this->Refdata == nullptr)
+            if (this->refData == nullptr)
             {
-                this->Refdata = s;
-                this->Count_address_of = 2;
-                this->next = nullptr;
+                this->refData = new ReferencesListData(s);
                 this->total_ref = 1;
             }
             else
             {
-                ReferencesList *cur = this->next;
+                ReferencesListData *cur = this->refData->next;
                 while (cur != nullptr)
                 {
                     cur = cur->next;
                 }
-                this->Refdata = s;
-                this->Count_address_of = 2;
-                this->next = nullptr;
+                cur = new ReferencesListData(s);
                 this->total_ref++;
             }
         }
@@ -125,14 +132,14 @@ public:
         {
             if (index < 0 || index >= this->size)
                 throw out_of_range("Index of references list is invalid!");
-            ReferencesList *cur = this;
+            ReferencesListData *cur = this->refData;
             while (index--)
                 cur = cur->next;
             return cur->Count_address_of;
         }
         std::string refCountsString() const
         {
-            ReferencesList *cur = this;
+            ReferencesListData *cur = this->refData;
             std::string rtn = "RefCounts[";
             while (cur->next != nullptr)
             {
@@ -148,11 +155,22 @@ public:
 
     class DeleteStringList
     {
-        CharALNode* del;
+        CharALNode *del;
         int total_del;
+        int total_refer;
+
     public:
-        int size() const;
-        std::string totalRefCountsString() const;
+        void insertDel(CharALNode *inp)
+        {
+            this->del->insert(inp->head->ArrayChar); 
+            this->del->insert(inp->tail->ArrayChar);
+        }
+        int size() const{
+            returnt total_del;
+        }
+        std::string totalRefCountsString() const{
+            return total_refer;
+        }
     };
 };
 #endif // __CONCAT_STRING_LIST_H__
