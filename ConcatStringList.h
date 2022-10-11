@@ -92,7 +92,7 @@ public:
         const char *Refdata;
         int Count_address_of;
         ReferencesList *next;
-        int total;
+        int total_ref;
 
     public:
         void insertdata(const char *s)
@@ -102,7 +102,7 @@ public:
                 this->Refdata = s;
                 this->Count_address_of = 2;
                 this->next = nullptr;
-                this->total = 1;
+                this->total_ref = 1;
             }
             else
             {
@@ -114,12 +114,12 @@ public:
                 this->Refdata = s;
                 this->Count_address_of = 2;
                 this->next = nullptr;
-                this->total++;
+                this->total_ref++;
             }
         }
         int size() const
         {
-            return this->total;
+            return this->total_ref;
         }
         int refCountAt(int index) const
         {
@@ -148,8 +148,8 @@ public:
 
     class DeleteStringList
     {
-        // TODO: may provide some attributes
-
+        CharALNode* del;
+        int total_del;
     public:
         int size() const;
         std::string totalRefCountsString() const;
