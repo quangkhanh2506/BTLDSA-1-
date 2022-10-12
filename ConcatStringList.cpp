@@ -1,19 +1,5 @@
 #include "ConcatStringList.h"
 
-char *retrnData(const char *inp, int from, int to)
-{
-    int sl = (from - to) + 1 char *tmp = new char[sl];
-    int i = 0;
-    j = from;
-    while (j > to)
-    {
-        tmp[i] = inp[j];
-        i++;
-        j++;
-    }
-    tmp[sl] = '\0';
-    return tmp;
-}
 
 ConcatStringList::ReferencesList ConcatStringList::refList = ConcatStringList::ReferencesList();
 ConcatStringList::DeleteStringList ConcatStringList::delStrList = ConcatStringList::DeleteStringList();
@@ -35,9 +21,9 @@ char ConcatStringList::get(int index) const
     CharArrayList *cur = this->Data->head;
     while (cur != nullptr)
     {
-        if (index > ((int)strlen(cur->ArrayChar) - 1))
+        if (index > (int)cur->ArrayChar->length() - 1))
         {
-            index -= (int)strlen(cur->ArrayChar);
+            index -= (int)cur->ArrayChar->length();
             cur = cur->next;
             continue;
         }
@@ -51,7 +37,7 @@ int ConcatStringList::indexOf(char c) const
         CharArrayList *cur = this->Data->head;
         while (cur != nullptr)
         {
-            for (int i = 0; i < (int)strlen(cur->ArrayChar); i++)
+            for (int i = 0; i < (int)cur->ArrayChar->length(); i++)
             {
                 if (this->Data->CharArrayList[i] == c)
                     return i;
@@ -63,19 +49,16 @@ int ConcatStringList::indexOf(char c) const
 }
 std::string ConcatStringList::toString() const
 {
-    std::string totalStr = "ConcatStringList[";
     if (this->Data->head != nullptr)
     {
         CharArrayList *cur = this->Data->head;
         while (cur->next != nullptr)
         {
             totalStr += cur->ArrayChar;
-            totalStr += ",";
             cur = cur->next;
         }
     }
     totalStr += cur->ArrayChar;
-    totalStr += "]";
     return totalStr;
 }
 ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const
@@ -114,22 +97,21 @@ ConcatStringList ConcatStringList::subString(int from, int to) const
     if (from >= to)
         throw logic_error("Invalid range");
     ConcatStringList concatsubstr;
-    const char *tmp;
     int count_node=0;
     CharArrayList *cur = this->Data->head;
     while (cur != nullptr && to > 0)
     {
-        if (to < strlen(cur->ArrayChar))
+        if (to < (int)cur->ArrayChar->length())
         {
-            tmp = retrnData(cur->ArrayChar, from, to - 1);
-            concatsubstr.Data->insert(tmp);
+            // substring
+            concatsubstr.Data->insert(cur->ArrayChar.substr(0,to-1));
             count_node++;
             break;
         }
-        tmp = retrnData(cur->ArrayChar, from, strlen(cur->ArrayChar) - 1);
-        concatsubstr.Data->insert(tmp);
+        //substring
+        concatsubstr.Data->insert(cur->ArrayChar.substr(from));
         from = 0;
-        to = to - strlen(cur->ArrayChar);
+        to = to - (int)cur->ArrayChar.length();
         cur = cur->next;
         count_node++;
     }
@@ -141,7 +123,7 @@ ConcatStringList ConcatStringList::subString(int from, int to) const
     {
         refList.insertdata(concatsubstr.Data->head->ArrayChar,1);
         refList.insertdata(concatsubstr.Data->tail->ArrayChar,1);
-        refList.refData++;
+        refList.total_ref++;
     }
     
     return concatsubstr;
@@ -149,8 +131,26 @@ ConcatStringList ConcatStringList::subString(int from, int to) const
 
 ConcatStringList ConcatStringList::reverse() const
 {
-    
+    ConcatStringList concatRevstr;
+    CharArrayList* cur=this->Data->head;
+    while (cur->next!=nullptr)
+    {
+        std::string a = cur->ArrayChar;
+        std::reverse(a.begin(),a.end());
+        concatRevstr.Data->insertHead(a);
+    }
+    if(this->Data->head->next!=nullptr){
+       refList.insertdata(concatRevstr.Data->head->ArrayChar,1);
+       refList.insertdata(concatRevstr.Data->tail->ArrayChar,1);
+       refList.total_ref++; 
+    }
+    else{
+        refList.insertdata(concatRevstr.Data->head->ArrayChar,2);
+        refList.total_ref++;
+    }
+    return concatRevstr;
 }
 ConcatStringList::~ConcatStringList()
 {
+    
 }

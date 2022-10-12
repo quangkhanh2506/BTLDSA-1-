@@ -17,16 +17,16 @@ public:
     class CharArrayList
     {
     public:
-        char *ArrayChar;
+        std::string ArrayChar;
         CharArrayList *next;
 
     public:
-        ChararrayList(const char *inp)
+        CharArrayList(std::string inp)
         {
             this->ArrayChar = inp;
             this->next = nullptr;
         }
-        ~ChararrayList();
+        ~CharArrayList();
     };
     class CharALNode
     {
@@ -42,9 +42,9 @@ public:
             this->head = nullptr;
             this->tail = nullptr;
         }
-        void insert(const char *inp)
+        void insert(std::string inp)
         {
-            this->size_string += strlen(inp);
+            this->size_string += (int)cur->ArrayChar->length();
             if (this->head == nullptr)
             {
                 this->head = new CharArrayList(inp);
@@ -54,6 +54,21 @@ public:
             {
                 this->tail = this->tail->next;
                 this->tail = new CharArrayList(inp);
+            }
+        }
+        void insertHead(std::string inp)
+        {
+            this->size_string += (int)cur->ArrayChar->length();
+            if (this->head == nullptr)
+            {
+                this->head = new CharArrayList(inp);
+                this->tail = this->head;
+            }
+            else
+            {
+                CharArrayList *cur = new CharArrayList(inp);
+                cur->next=this->head;
+                this->head=cur;
             }
         }
         ~CharALNode()
@@ -89,12 +104,12 @@ public:
         class ReferencesListData
         {
         public:
-            const char *Refdata;
+            std::string *Refdata;
             int Count_address_of;
             ReferencesListData *next;
 
         public:
-            ReferencesListData(const char *s,int total_address)
+            ReferencesListData(std::string s, int total_address)
             {
                 this->Refdata = s;
                 this->Count_address_of = total_address;
@@ -103,14 +118,14 @@ public:
             ~ReferencesListData();
         };
         ReferencesListData *refData;
-        int total_ref=0;
+        int total_ref = 0;
 
     public:
-        void insertdata(const char *s,int total_address)
+        void insertdata(std::string s, int total_address)
         {
             if (this->refData == nullptr)
             {
-                this->refData = new ReferencesListData(s,total_address);
+                this->refData = new ReferencesListData(s, total_address);
             }
             else
             {
@@ -119,7 +134,7 @@ public:
                 {
                     cur = cur->next;
                 }
-                cur = new ReferencesListData(s,total_address);
+                cur = new ReferencesListData(s, total_address);
             }
         }
         int size() const
@@ -160,14 +175,16 @@ public:
     public:
         void insertDel(CharALNode *inp)
         {
-            this->del->insert(inp->head->ArrayChar); 
+            this->del->insert(inp->head->ArrayChar);
             this->del->insert(inp->tail->ArrayChar);
         }
-        int size() const{
+        int size() const
+        {
             returnt total_del;
         }
-        std::string totalRefCountsString() const{
-            return total_refer;
+        std::string totalRefCountsString() const
+        {
+            return "TotalRefCounts[" + to_string(this->total_refer) + "]";
         }
     };
 };
