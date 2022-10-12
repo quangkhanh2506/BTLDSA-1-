@@ -64,7 +64,7 @@ std::string ConcatStringList::toString() const
 }
 ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const
 {
-    ConcatStringList concatstr = new CharALNode();
+    ConcatStringList concatstr;
     CharArrayList *cur = this->Data->head;
 
     ReferencesList tmp = refList;
@@ -99,12 +99,29 @@ ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const
 
     return concatstr;
 }
+char* retrnData(const char* inp, int from, int to){
+    int sl=(from-to)+1
+    char* tmp=new char[sl];
+    int i=0;j=from;
+    while (j>to)
+    {
+        tmp[i]=inp[j];
+        i++;
+        j++;
+    }
+    tmp[sl]='\0';
+    return tmp;
+    
+}
 ConcatStringList ConcatStringList::subString(int from, int to) const
 {
     if (from < 0 || to >= this->length())
         throw out_of_range("Index of string is invalid");
     if (from >= to)
         throw logic_error("Invalid range");
+    ConcatStringList concatsubstr;
+    const char* tmp;
+    
     
 }
 
