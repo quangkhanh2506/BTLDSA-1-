@@ -104,7 +104,7 @@ ConcatStringList ConcatStringList::subString(int from, int to) const
         if (to < (int)cur->ArrayChar->length())
         {
             // substring
-            concatsubstr.Data->insert(cur->ArrayChar.substr(0,to-1));
+            concatsubstr.Data->insert(cur->ArrayChar.substr(0,to));
             count_node++;
             break;
         }
@@ -152,5 +152,49 @@ ConcatStringList ConcatStringList::reverse() const
 }
 ConcatStringList::~ConcatStringList()
 {
-    
+    if(this->Data->head->next==nullptr){
+        ReferencesList cur=refList;
+        while (cur.refData!=nullptr)
+        {
+            if(cur.refData->Refdata==this->Data->head->ArrayChar) {
+                cur.refData->Count_address_of-=2;
+
+                if(cur.refData->Count_address_of<=0) {
+                    cur.delNode(this->Data->head->ArrayChar);
+                    delStrList.insertDel(this->Data->head->ArrayChar,0);
+                    delStrList.total_dels++;
+                }
+                else 
+                {
+                    delStrList.insertDel(this->Data->head->ArrayChar,cur.refData->Count_address_of);
+                }
+                
+            }
+            cur.refData=cur.refData->next;
+        }
+        delete this->Data;
+    }
+    else{
+        ReferencesList cur=refList;
+        while (cur.refData!=nullptr)
+        {
+            if(cur.refData->Refdata==this->Data->head->ArrayChar||cur.refData->Refdata==this->Data->tail->ArrayChar) {
+                cur.refData->Count_address_of-=1;
+
+                if(cur.refData->Count_address_of<=0) {
+                    cur.delNode(this->Data->head->ArrayChar);
+                    delStrList.insertDel(this->Data->head->ArrayChar,0);
+                    delStrList.total_dels++;
+                }
+                else 
+                {
+                    delStrList.insertDel(this->Data->head->ArrayChar,cur.refData->Count_address_of);
+                }
+                
+            }
+            cur.refData=cur.refData->next;
+        }
+        delete this->Data;
+    }
+
 }
