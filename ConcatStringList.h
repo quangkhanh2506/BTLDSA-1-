@@ -94,24 +94,23 @@ public:
             ReferencesListData *next;
 
         public:
-            ReferencesListData(const char *s)
+            ReferencesListData(const char *s,int total_address)
             {
                 this->Refdata = s;
-                this->Count_address_of = 2;
+                this->Count_address_of = total_address;
                 this->next = nullptr;
             }
             ~ReferencesListData();
         };
         ReferencesListData *refData;
-        int total_ref;
+        int total_ref=0;
 
     public:
-        void insertdata(const char *s)
+        void insertdata(const char *s,int total_address)
         {
             if (this->refData == nullptr)
             {
-                this->refData = new ReferencesListData(s);
-                this->total_ref = 1;
+                this->refData = new ReferencesListData(s,total_address);
             }
             else
             {
@@ -120,8 +119,7 @@ public:
                 {
                     cur = cur->next;
                 }
-                cur = new ReferencesListData(s);
-                this->total_ref++;
+                cur = new ReferencesListData(s,total_address);
             }
         }
         int size() const

@@ -1,12 +1,28 @@
 #include "ConcatStringList.h"
 
+char *retrnData(const char *inp, int from, int to)
+{
+    int sl = (from - to) + 1 char *tmp = new char[sl];
+    int i = 0;
+    j = from;
+    while (j > to)
+    {
+        tmp[i] = inp[j];
+        i++;
+        j++;
+    }
+    tmp[sl] = '\0';
+    return tmp;
+}
+
 ConcatStringList::ReferencesList ConcatStringList::refList = ConcatStringList::ReferencesList();
 ConcatStringList::DeleteStringList ConcatStringList::delStrList = ConcatStringList::DeleteStringList();
 
 ConcatStringList::ConcatStringList(const char *s)
 {
     this->Data->insert(s);
-    refList.insertData(this->Data->head->ArrayChar);
+    refList.insertData(this->Data->head->ArrayChar,2);
+    refList.total_ref++;
 }
 int ConcatStringList::length() const
 {
@@ -64,12 +80,7 @@ std::string ConcatStringList::toString() const
 }
 ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const
 {
-<<<<<<< Updated upstream
     ConcatStringList concatstr;
-    CharArrayList *cur = this->Data->head;
-=======
->>>>>>> Stashed changes
-
     ReferencesList tmp = refList;
     while (tmp.refData != nullptr)
     {
@@ -95,20 +106,7 @@ ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const
 
     return concatstr;
 }
-char* retrnData(const char* inp, int from, int to){
-    int sl=(from-to)+1
-    char* tmp=new char[sl];
-    int i=0;j=from;
-    while (j>to)
-    {
-        tmp[i]=inp[j];
-        i++;
-        j++;
-    }
-    tmp[sl]='\0';
-    return tmp;
-    
-}
+
 ConcatStringList ConcatStringList::subString(int from, int to) const
 {
     if (from < 0 || to >= this->length())
@@ -116,21 +114,42 @@ ConcatStringList ConcatStringList::subString(int from, int to) const
     if (from >= to)
         throw logic_error("Invalid range");
     ConcatStringList concatsubstr;
-    const char* tmp;
-    
-    
-    CharArrayList* cur= this->Data->head;
-    while (cur!=nullptr)
+    const char *tmp;
+    int count_node=0;
+    CharArrayList *cur = this->Data->head;
+    while (cur != nullptr && to > 0)
     {
-        if(to<strlen(cur->ArrayChar)){
-            
+        if (to < strlen(cur->ArrayChar))
+        {
+            tmp = retrnData(cur->ArrayChar, from, to - 1);
+            concatsubstr.Data->insert(tmp);
+            count_node++;
+            break;
         }
+        tmp = retrnData(cur->ArrayChar, from, strlen(cur->ArrayChar) - 1);
+        concatsubstr.Data->insert(tmp);
+        from = 0;
+        to = to - strlen(cur->ArrayChar);
+        cur = cur->next;
+        count_node++;
+    }
+    if(count_node==1){
+        refList.insertdata(concatsubstr.Data->head->ArrayChar,2);
+        refList.total_ref++;
+    }
+    else if (count_node>1)
+    {
+        refList.insertdata(concatsubstr.Data->head->ArrayChar,1);
+        refList.insertdata(concatsubstr.Data->tail->ArrayChar,1);
+        refList.refData++;
     }
     
+    return concatsubstr;
 }
 
 ConcatStringList ConcatStringList::reverse() const
 {
+    
 }
 ConcatStringList::~ConcatStringList()
 {
