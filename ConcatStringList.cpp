@@ -64,17 +64,22 @@ std::string ConcatStringList::toString() const
 }
 ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const
 {
+<<<<<<< Updated upstream
     ConcatStringList concatstr;
     CharArrayList *cur = this->Data->head;
+=======
+>>>>>>> Stashed changes
 
     ReferencesList tmp = refList;
     while (tmp.refData != nullptr)
     {
-        if (tmp.refData->Refdata == cur->ArrayChar)
+        if (tmp.refData->Refdata == this->Data->head->ArrayChar || tmp.refData->Refdata == otherS.Data->tail->ArrayChar)
             tmp.refData->Count_address_of++;
         tmp.refData = tmp.refData->next;
     }
 
+    ConcatStringList concatstr = new CharALNode();
+    CharArrayList *cur = this->Data->head;
     while (cur != nullptr)
     {
         concatstr.Data->insert(cur->ArrayChar);
@@ -82,19 +87,10 @@ ConcatStringList ConcatStringList::concat(const ConcatStringList &otherS) const
     }
 
     cur = otherS.Data->head;
-    while (cur->next != nullptr)
+    while (cur != nullptr)
     {
         concatstr.Data->insert(cur->ArrayChar);
         cur = cur->next;
-    }
-    concatstr.Data->insert(cur->ArrayChar);
-
-    ReferencesList tmp = refList;
-    while (tmp.refData != nullptr)
-    {
-        if (tmp.refData->Refdata == cur->ArrayChar)
-            tmp.refData->Count_address_of++;
-        tmp.refData = tmp.refData->next;
     }
 
     return concatstr;
@@ -122,6 +118,14 @@ ConcatStringList ConcatStringList::subString(int from, int to) const
     ConcatStringList concatsubstr;
     const char* tmp;
     
+    
+    CharArrayList* cur= this->Data->head;
+    while (cur!=nullptr)
+    {
+        if(to<strlen(cur->ArrayChar)){
+            
+        }
+    }
     
 }
 
